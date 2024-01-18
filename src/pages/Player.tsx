@@ -3,11 +3,20 @@ import { Header } from '../components/Header'
 import { Video } from '../components/Video'
 import { Module } from '../components/Module'
 import { useAppSelector } from '../store'
+import { useCurrentModuleAndLesson } from '../store/slices/player'
+import { useEffect } from 'react'
 
 export const ClassPlayer = () => {
   const modules = useAppSelector((state) => {
     return state.player.course.modules
   })
+
+  const { currentLesson, currentModule } = useCurrentModuleAndLesson()
+
+  useEffect(() => {
+    document.title = `${currentLesson.title} | ${currentModule.title}`
+  }, [currentLesson, currentModule.title])
+
   return (
     <div className="h-screen bg-zinc-950 text-zinc-50 flex justify-center items-center">
       <div className="flex w-[1100px] flex-col gap-6">
