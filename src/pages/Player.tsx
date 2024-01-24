@@ -3,26 +3,20 @@ import { FiMessageCircle } from 'react-icons/fi'
 import { Header } from '../components/Header'
 import { Video } from '../components/Video'
 import { Module } from '../components/Module'
-import { useAppSelector } from '../store'
-import { start, useCurrentModuleAndLesson } from '../store/slices/player'
-import { api } from '../api/api'
-import { useDispatch } from 'react-redux'
+import { useAppDispatch, useAppSelector } from '../store'
+import { loadCourse, useCurrentModuleAndLesson } from '../store/slices/player'
 
 export const ClassPlayer = () => {
   const modules = useAppSelector((state) => {
     return state.player.course?.modules
   })
   const { currentLesson, currentModule } = useCurrentModuleAndLesson()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    const fetchLesson = async () => {
-      const response = await api.get('/courses')
-
-      dispatch(start(response.data))
-    }
-
-    fetchLesson()
+    setTimeout(() => {
+      dispatch(loadCourse())
+    }, 2000)
   }, [dispatch])
 
   useEffect(() => {
